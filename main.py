@@ -5,7 +5,7 @@ from core.config import bot
 
 
 dp = Dispatcher()
-# sbsfbsf
+# sbsfbsf bdb
 #vfvfffff
 from user.handlers.start import rt as rt_start
 from user.handlers.request_from_user import rt as rt_request_from_user
