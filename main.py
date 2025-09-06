@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher
 from core.config import bot
 
 dp = Dispatcher()
+# sbsfbsf
 
 from user.handlers.start import rt as rt_start
 from user.handlers.request_from_user import rt as rt_request_from_user
