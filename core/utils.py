@@ -9,7 +9,7 @@ class Error(Exception):
     pass
 
 async def main(data):
-
+    start = datetime.now()
     item = data['request_from_user']
     dt = str(datetime.now().strftime("%d_%m_%y__%H_%M_%S"))
     try:
@@ -33,6 +33,7 @@ async def main(data):
             print(await task)
             if await task == []:
                 task.cancel()
+                print(f"Время работы программы {datetime.now() - start}")
                 return path
 
 
@@ -43,6 +44,7 @@ async def main(data):
                 await pg.write_method_json(task,user_name,data_path= path)
                 print("Страница обработана")
         else:
+            print(f"Время работы программы {datetime.now() - start}")
             return path
     finally:
         pass
