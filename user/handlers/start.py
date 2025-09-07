@@ -1,5 +1,5 @@
 from aiogram import Router
-from aiogram.types import Message
+from aiogram.types import Message, ReplyKeyboardRemove
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
@@ -9,6 +9,7 @@ rt = Router()
 
 @rt.message(Command('start'))
 async def start_cmd(message: Message,state: FSMContext):
-    await message.answer('Привет я бот для бизнеса')
+    remove_keyboard = ReplyKeyboardRemove()
+    await message.answer('Привет я бот для бизнеса',reply_markup=remove_keyboard)
     await user_menu(message, state)
 
