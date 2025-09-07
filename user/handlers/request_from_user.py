@@ -10,10 +10,12 @@ from aiogram import F
 from KeyBoards.ReplyKeyboards.type_of_file_kb import type_of_file_kb
 from states.request_from_user_states import Request_from_user_state
 from KeyBoards.InlineKeyboard.menu_user_kb import rating_kb
-from core.utils import main
+from core.utils import main,Error
+
 
 
 rt = Router()
+
 
 async def user_rq_vl(data,message: Message, state:FSMContext):
 
@@ -50,10 +52,13 @@ async def request_user_min_price(message: Message, state: FSMContext):
 
     async def validation():
         try:
-            await state.update_data(min_price= int(message.text))
+            if int(message.text) >= 0 :
+                await state.update_data(min_price= int(message.text))
+            else:
+                raise Error("Значение долно быть больше или равно нулю")
         except:
             await message.delete()
-            await message.answer('Цена должна быть числом,введите значение снова')
+            await message.answer('Цена должна быть числом больше нуля,введите значение снова')
             await validation()
 
     await validation()
