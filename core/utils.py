@@ -1,11 +1,7 @@
 from datetime import datetime
-
 import asyncio
 from core.user_data import UserData
 from core import script
-import os
-import os.path
-
 
 class Error(Exception):
     pass
