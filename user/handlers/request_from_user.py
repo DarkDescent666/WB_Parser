@@ -1,16 +1,14 @@
-import asyncio
-from time import sleep
 
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove, FSInputFile
 from aiogram import F
 from concurrent.futures import ThreadPoolExecutor
-
+from core.utils import ParsPages
 from KeyBoards.ReplyKeyboards.type_of_file_kb import type_of_file_kb
 from states.request_from_user_states import Request_from_user_state
 from KeyBoards.InlineKeyboard.menu_user_kb import rating_kb
-from core.utils import main
+from core.user_data import UserData
 
 rt = Router()
 
@@ -121,8 +119,9 @@ async def request_user_type_of_file(message: Message, state: FSMContext):       
                          f'Тип получаемого файла: {data['type_of_file']}',reply_markup=remove_keyboard)
     await state.clear()
 
-    document = await main(data)
-    document = FSInputFile(document, filename=document)
+    pages = ParsPages(data)
+    get_data_items_by_name = await (pages.processing_by_name())
+    document = FSInputFile(get_data_items_by_name, filename=get_data_items_by_name)
     await message.answer_document(document=document, caption="Работает!!")
 
 
