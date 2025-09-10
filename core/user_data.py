@@ -15,16 +15,16 @@ class UserData:
             self.path = f"products_csv//products_{self.user_name}_{self.dt}.csv"
         else:
             self.path = f"products_json//products_{self.user_name}_{self.dt}.json"
-    # def __init__(self):
-    #     self.dt = str(datetime.now().strftime("%d_%m_%y__%H_%M_%S"))
-    #     self.item = "Самокак"
-    #     self.min_price = 11
-    #     self.max_price = 98989
-    #     self.count_page = 100
-    #     self.rating = 1
-    #     self.file_writer ="JSON"
-    #     self.user_name = "UserName"
-    #     if self.file_writer == "CSV":
-    #         self.path = f"products_csv//products_{self.user_name}_{self.dt}.csv"
-    #     else:
-    #         self.path = f"products_json//products_{self.user_name}_{self.dt}.json"
+#     def __init__(self):
+#         self.dt = str(datetime.now().strftime("%d_%m_%y__%H_%M_%S"))
+#         self.item = "Самокак"
+#         self.min_price = 11
+#         self.max_price = 98989
+#         self.count_page = 100
+#         self.rating = 1
+#         self.file_writer ="CSV"
+#         self.user_name = "UserName"
+#         if self.file_writer == "CSV":
+#             self.path = f"products_csv//products_{self.user_name}_{self.dt}.csv"
+#         else:
+#             self.path = f"products_json//products_{self.user_name}_{self.dt}.json"

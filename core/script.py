@@ -44,6 +44,7 @@ class Page_Source(Writers):
 
         except:
             Exception(TypeError)
+        print(len(products_list))
         return products_list
 
     async def price_method(self, sizes):

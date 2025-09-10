@@ -120,7 +120,7 @@ async def request_user_type_of_file(message: Message, state: FSMContext):       
     await state.clear()
 
     pages = ParsPages(data)
-    get_data_items_by_name = await (pages.processing_by_name())
+    get_data_items_by_name = await (pages.processing_by_name(data))
     document = FSInputFile(get_data_items_by_name, filename=get_data_items_by_name)
     await message.answer_document(document=document, caption="Работает!!")
 
