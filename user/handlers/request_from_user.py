@@ -1,6 +1,3 @@
-import asyncio
-from time import sleep
-
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove, FSInputFile
@@ -13,22 +10,9 @@ from KeyBoards.InlineKeyboard.menu_user_kb import rating_kb
 from core.utils import main,Error
 
 
+from validators.valid_for_request_from_user import valid_max_price, valid_count_page, valid_min_price
 
 rt = Router()
-
-
-async def user_rq_vl(data,message: Message, state:FSMContext):
-
-    if data["min_price"] > data["max_price"]:
-        remove_keyboard = ReplyKeyboardRemove()
-        await message.answer("Неверно введены данные для фильрации:\n"
-                       "Минимальная цена должна быть меньше максимальной",reply_markup=remove_keyboard)
-
-        await state.set_state(Request_from_user_state.waiting_price_min)
-        return request_user_min_price(message,state)
-    else:
-        return message.answer('Начинаю обработку данных')
-
 
 @rt.callback_query(F.data == 'request_from_user')
 async def request_callback_query(callback: CallbackQuery, state: FSMContext):
@@ -50,18 +34,8 @@ async def request_user(message: Message, state: FSMContext):
 async def request_user_min_price(message: Message, state: FSMContext):
     '''#Получаем максимальную цену для фильтра подбора товаров'''
 
-    async def validation():
-        try:
-            if int(message.text) >= 0 :
-                await state.update_data(min_price= int(message.text))
-            else:
-                raise Error("Значение долно быть больше или равно нулю")
-        except:
-            await message.delete()
-            await message.answer('Цена должна быть числом больше нуля,введите значение снова')
-            await validation()
-
-    await validation()
+    if await valid_min_price(message,state) is False:
+        return request_user_min_price
 
 
     await message.answer('Введите максимальную цену подбора')
@@ -69,18 +43,12 @@ async def request_user_min_price(message: Message, state: FSMContext):
 
 @rt.message(Request_from_user_state.waiting_price_max)
 async def request_user_max_price(message: Message, state: FSMContext):
+    '''Получаем максимальную цену подбора товара'''
+
+    if await valid_max_price(message,state) is False:
+        return request_user_max_price
+
     '''Получаем колличество страниц для обработки ботом'''
-
-    async def validation():
-        try:
-            await state.update_data(max_price=int(message.text))
-        except:
-            await message.delete()
-            await message.answer('Цена должна быть числом,введите значение снова')
-            await validation()
-
-    await validation()
-
     await message.answer('Введите колличество страниц для обработки')
     await state.set_state(Request_from_user_state.waiting_count_page)
 
@@ -88,15 +56,8 @@ async def request_user_max_price(message: Message, state: FSMContext):
 async def request_user_count_page(message: Message, state: FSMContext):
     '''#Получение минимального рейтинга товаров от пользователя'''
 
-    async def validation():
-        try:
-            await state.update_data(count_page=int(message.text))
-        except:
-            await message.delete()
-            await message.answer('Количество страниц должно быть числом,введите значение снова')
-            await validation()
-
-    await validation()
+    if await valid_count_page(message,state) is False:
+        return request_user_count_page
 
     await message.answer('Выберите интересующий рейтинг товара', reply_markup= rating_kb)
     await state.set_state(Request_from_user_state.waiting_rating)
@@ -152,21 +113,17 @@ async def request_user_type_of_file(message: Message, state: FSMContext):
     ''' Получаем желаемый пользователем тип файла'''
 
     if message.text != ('JSON' or 'CSV'):
-        await message.delete()
         await message.answer('Пожалуйста, используй кнопки')
         return request_user_type_of_file
 
-
-
     await state.update_data(type_of_file=message.text,
                             user_name = message.from_user.username)
-    # print(message.from_user.username)
+
     remove_keyboard = ReplyKeyboardRemove()
 
     data = await state.get_data()
 
-    validator = await user_rq_vl(data=data,message= message,state =state)
-    await validator
+
     await message.answer(f'Все необходимые данные получены\n\n'
                          f'Ваш запрос: {data['request_from_user']}\n'
                          f'Минимальная цена: {data['min_price']}\n'
