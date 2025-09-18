@@ -11,15 +11,10 @@ from KeyBoards.ReplyKeyboards.type_of_file_kb import type_of_file_kb
 from states.request_from_user_states import Request_from_user_state
 from KeyBoards.InlineKeyboard.menu_user_kb import rating_kb
 
-from core.utils import Error
-
-
 
 from validators.valid_for_request_from_user import valid_max_price, valid_count_page, valid_min_price
 
-
 rt = Router()
-
 
 @rt.callback_query(F.data == 'request_from_user')
 async def request_callback_query(callback: CallbackQuery, state: FSMContext):
@@ -44,8 +39,6 @@ async def request_user_min_price(message: Message, state: FSMContext):
 
     if await valid_min_price(message,state) is False:
         return request_user_min_price
-
-
 
     await message.answer('Введите максимальную цену подбора')
     await state.set_state(Request_from_user_state.waiting_price_max)
@@ -139,18 +132,14 @@ async def request_user_type_of_file(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-
-
     await message.answer(f'Все необходимые данные получены\n\n'
                          f'Ваш запрос: {data['request_from_user']}\n'
                          f'Минимальная цена: {data['min_price']}\n'
                          f'Максимальная цена: {data['max_price']}\n'
                          f'Количество страниц для обработки: {data['count_page']}\n'
                          f'Рейтинг: {data['rating']}\n'
-                         f'Тип получаемого файла: {data['type_of_file']},',reply_markup=remove_keyboard)
+                         f'Тип получаемого файла: {data['type_of_file']}',reply_markup=remove_keyboard)
     await state.clear()
-    #Записываем данные от пользователя в переменные класса UserData
-
 
     pages = ParsPages()
     await pages.set_data(data)

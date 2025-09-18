@@ -40,7 +40,11 @@ async def valid_max_price(message,state):
 async def valid_count_page(message,state):
     try:
         await state.update_data(count_page=int(message.text))
-        return True
+        if int(message.text) <= 0:
+            await message.answer('Значение должно быть больше нуля')
+            return False
+        else:
+            return True
     except:
         await message.answer('Количество страниц должно быть числом,введите значение снова')
         return False
