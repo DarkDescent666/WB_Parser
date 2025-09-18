@@ -1,4 +1,3 @@
-from datetime import datetime
 
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
@@ -6,7 +5,7 @@ from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove, FSInputFi
 from aiogram import F
 
 from core.utils import ParsPages
-from core.user_data import UserData
+
 from KeyBoards.ReplyKeyboards.type_of_file_kb import type_of_file_kb
 from states.request_from_user_states import Request_from_user_state
 from KeyBoards.InlineKeyboard.menu_user_kb import rating_kb
@@ -151,7 +150,7 @@ async def request_user_type_of_file(message: Message, state: FSMContext):
     await state.clear()
 
     pages = ParsPages()
-    await pages.set_data(data)
+    await pages.set_data_by_item(data)
     get_data_items_by_name = await (pages.processing_by_name())
     document = FSInputFile(get_data_items_by_name, filename=get_data_items_by_name)
     await message.answer_document(document=document, caption="Работает!!")

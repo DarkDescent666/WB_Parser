@@ -2,7 +2,7 @@ import asyncio
 import json
 from core.writers import Writers
 import aiohttp
-from core.user_data import UserData
+from core.user_data import UserDataByItem as UserData
 
 
 class Page_Source(UserData, Writers):
@@ -43,13 +43,17 @@ class Page_Source(UserData, Writers):
             Exception(TypeError)
 
     #скрипт формирования списка задач из асинхронных HTTP запросов
-    async def gather_data(self, min_price=0, max_price=1000000000000000, rt=0):
+    async def gather_data(self, min_price=0, max_price=1000000000000000, rt=0, seller_id=0):
         async with aiohttp.ClientSession() as session:
             tasks = []
             for page in range(1, UserData.count_page+1):
 
                 print(f"[+] Обработка страницы {page}")
-                self.__url = f"https://search.wb.ru/exactmatch/ru/common/v18/search?ab_testing=false&appType=1&curr=rub&dest=-5551776&inheritFilters=false&lang=ru&page={page}&query={self.item}&resultset=catalog&sort=popular&spp=30&suppressSpellcheck=false"
+                if seller_id == 0:
+                    self.__url = f"https://search.wb.ru/exactmatch/ru/common/v18/search?ab_testing=false&appType=1&curr=rub&dest=-5551776&inheritFilters=false&lang=ru&page={page}&query={self.item}&resultset=catalog&sort=popular&spp=30&suppressSpellcheck=false"
+
+                else:
+                    self.__url = f"https://u-catalog.wb.ru/sellers/v4/catalog?ab_testid=route_score_gaps_3&appType=1&curr=rub&dest=-5551776&lang=ru&page={page}&sort=popular&spp=30&supplier={seller_id}"
                 response = await session.get(self.__url)
                 products_raw = json.loads(await response.text())
                 products = products_raw.get("products")
