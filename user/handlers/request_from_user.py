@@ -1,15 +1,17 @@
+from datetime import datetime
+
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove, FSInputFile
 from aiogram import F
 
-
+from core.utils import ParsPages
 from core.user_data import UserData
 from KeyBoards.ReplyKeyboards.type_of_file_kb import type_of_file_kb
 from states.request_from_user_states import Request_from_user_state
 from KeyBoards.InlineKeyboard.menu_user_kb import rating_kb
 
-from core.utils import main,Error
+from core.utils import Error
 
 
 
@@ -68,8 +70,6 @@ async def request_user_count_page(message: Message, state: FSMContext):
     if await valid_count_page(message,state) is False:
         return request_user_count_page
 
-
-    await validation()
 
     await message.answer('Выберите интересующий рейтинг товара', reply_markup=rating_kb)
     await state.set_state(Request_from_user_state.waiting_rating)
