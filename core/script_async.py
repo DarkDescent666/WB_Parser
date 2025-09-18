@@ -7,8 +7,10 @@ from core.user_data import UserData
 
 class Page_Source(UserData, Writers):
 
+    #Обработчик страниц
     async def get_page_data(self, products, min_price=0, max_price=1000000000000000, rt=1):
         try:
+
             tasks_write = []
             products_list = []
             brands_list = []
@@ -33,13 +35,14 @@ class Page_Source(UserData, Writers):
             tasks_write.append(self.write_brand(brands_list))
             #await self.write_brand(brands_list)
             if UserData.file_writer == "JSON":
-                tasks_write.append(self.write_method_json(products_list, data_path=UserData.path))#await self.write_method_json(products_list, data_path=self.path)
+                tasks_write.append(self.write_method_json(products_list, data_path=UserData.path))
             else:
-                tasks_write.append(self.write_method_csv(products_list, data_path=UserData.path))#await self.write_method_csv(products_list, data_path=self.path)
+                tasks_write.append(self.write_method_csv(products_list, data_path=UserData.path))
             await asyncio.gather(*tasks_write)
         except:
             Exception(TypeError)
 
+    #скрипт формирования списка задач из асинхронных HTTP запросов
     async def gather_data(self, min_price=0, max_price=1000000000000000, rt=0):
         async with aiohttp.ClientSession() as session:
             tasks = []

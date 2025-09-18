@@ -9,10 +9,11 @@ class Error(Exception):
 
 
 class ParsPages(UserData):
+    #Парсинг по названию товаров
     async def processing_by_name(self):
             start = datetime.now()
             async_script = Page_Source()
-
+            #Передаем параметры из UserData в скрипт формирования задач gather_data из файла script_async
             task = asyncio.create_task(async_script.gather_data(
                     min_price=UserData.min_price, max_price=UserData.max_price, rt=UserData.rating),
                                            )
