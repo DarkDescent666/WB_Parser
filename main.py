@@ -5,15 +5,17 @@ from core.config import bot
 
 
 dp = Dispatcher()
-# sbsfbsf
+# sbsfbsf bdb fgdbdfb
 #vfvfffff
 from user.handlers.start import rt as rt_start
 from user.handlers.request_from_user import rt as rt_request_from_user
+from user.handlers.seller import rt as rt_sales
 
 
 def initial_routers(dispatcher: Dispatcher):
     dispatcher.include_routers(rt_start,
-                               rt_request_from_user)
+                               rt_request_from_user,
+                               rt_sales)
 
 async def main():
     await bot.delete_webhook(drop_pending_updates=True)

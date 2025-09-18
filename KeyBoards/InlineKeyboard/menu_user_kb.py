@@ -19,9 +19,11 @@ rating_kb = InlineKeyboardMarkup(
         [InlineKeyboardButton(text='5',callback_data='rating_assessment_5')]
     ]
 
+
 )
-return_start = InlineKeyboardMarkup(
+salesman_kb = InlineKeyboardMarkup(
     inline_keyboard=[
-        [InlineKeyboardButton(text="/start",callback_data="return_start")]
+        [InlineKeyboardButton(text='Имя продавца', callback_data='salesman_name')],
+
     ]
 )
