@@ -42,15 +42,9 @@ class ParsPages:
                                            )
             if await task == None:
                 print(f"Время работы программы {datetime.now() - start}")
-                UserDataByItem.item = ""
-                UserDataByItem.min_price = 0
-                UserDataByItem.max_price = 10000000000
-                UserDataByItem.count_page = 0
-                UserDataByItem.file_writer = "CSV"
-                UserDataByItem.user_name = ""
-                UserDataByItem.rating = 0
                 UserDataBySeller.brand_id = 0
                 return UserDataByItem.path
+            ###
 
 
 
