@@ -1,7 +1,7 @@
 
 from aiogram import Router
 from aiogram.fsm.context import FSMContext
-from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove, FSInputFile
+from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 from aiogram import F
 
 from core.utils import ParsPages
@@ -133,7 +133,8 @@ async def request_user_type_of_file(message: Message, state: FSMContext):
         return request_user_type_of_file
 
     await state.update_data(type_of_file=message.text,
-                            user_name = message.from_user.username)
+                            user_name = message.from_user.username,
+                            user_id =  message.from_user.id)
 
 
     remove_keyboard = ReplyKeyboardRemove()
@@ -151,9 +152,7 @@ async def request_user_type_of_file(message: Message, state: FSMContext):
 
     pages = ParsPages()
     await pages.set_data_by_item(data)
-    get_data_items_by_name = await (pages.processing_by_name())
-    document = FSInputFile(get_data_items_by_name, filename=get_data_items_by_name)
-    await message.answer_document(document=document, caption="Работает!!")
+    await pages.processing_by_name(message)
 
 
 

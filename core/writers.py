@@ -30,11 +30,11 @@ class Writers:
         with open(data_path, "w", encoding="UTF-8") as file_load:
             json.dump(data, file_load, ensure_ascii=False, indent=4)
 
-    async def write_brand(self, brands):
+    async def write_sellers(self, brands):
         # '''Метод записи в формат JSON'''
 
         try:
-            with open("brands.json", "r", encoding="UTF-8") as file_load:
+            with open("sellers.json", "r", encoding="UTF-8") as file_load:
                 data = json.load(file_load)
         except:
             data = []
@@ -45,5 +45,5 @@ class Writers:
             else:
                 continue
 
-        with open("brands.json", "w", encoding="UTF-8") as file_load:
+        with open("sellers.json", "w", encoding="UTF-8") as file_load:
             json.dump(data, file_load, ensure_ascii=False, indent=4)

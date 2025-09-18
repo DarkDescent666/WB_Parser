@@ -1,6 +1,5 @@
 
 class UserDataByItem:
-    dt: str
     item: str
     min_price: int = 0
     max_price: int = 1000000000000
@@ -8,12 +7,15 @@ class UserDataByItem:
     rating: int = 0
     file_writer: str = "CSV"
     path: str
-    user_name: str = 'Oleg'
-
-
-class UserDataBySeller(UserDataByItem):
+    user_name: str
     brand_id: int = 0
 
+
+class UserDataBySeller:
+    brand_id: int = 0
+    file_writer: str
+    user_name: str
+    path: str
 
 
 

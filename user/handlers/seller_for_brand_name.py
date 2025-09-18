@@ -41,10 +41,6 @@ async def seller_get_type_of_file(message: Message,state: FSMContext):
 
     pages = ParsPages()
     await pages.set_data_by_seller(data)
-
-    get_data_items_by_seller = await (pages.processing_by_name())
-
-    document = FSInputFile(get_data_items_by_seller, filename=get_data_items_by_seller)
-    await message.answer_document(document=document, caption="Работает!!",reply_markup=remove_keyboard)
+    await pages.processing_by_seller(message)
 
 

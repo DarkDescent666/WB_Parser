@@ -3,17 +3,19 @@ import json
 from core.writers import Writers
 import aiohttp
 from core.user_data import UserDataByItem as UserData
+from core.send_file import send
 
 
 class Page_Source(UserData, Writers):
 
+
     #Обработчик страниц
-    async def get_page_data(self, products, min_price=0, max_price=1000000000000000, rt=1):
+    async def get_page_data(self, products, min_price=0, max_price=1000000000000000, rt=1,path=""):
         try:
 
             tasks_write = []
             products_list = []
-            brands_list = []
+            sellers_list = []
             for product in products:
                 if len(product) != 0:
                     price = await self.price_method(product.get("sizes"))
@@ -28,22 +30,24 @@ class Page_Source(UserData, Writers):
                             "Цена": price,
                             "Рейтинг": rating
                         })
-                        brands_list.append({
+                        sellers_list.append({
                             "SupplierID": product.get("supplierId"),
                             "Поставщик": product.get("supplier")
                         })
-            tasks_write.append(self.write_brand(brands_list))
-            #await self.write_brand(brands_list)
+            #tasks_write.append(self.write_brand(brands_list))
+            await self.write_sellers(sellers_list)
             if UserData.file_writer == "JSON":
-                tasks_write.append(self.write_method_json(products_list, data_path=UserData.path))
+                await self.write_method_json(products_list, data_path=self.path)#tasks_write.append(self.write_method_json(products_list, data_path=path))
             else:
-                tasks_write.append(self.write_method_csv(products_list, data_path=UserData.path))
-            await asyncio.gather(*tasks_write)
+                await self.write_method_csv(products_list, data_path=self.path)#tasks_write.append(self.write_method_csv(products_list, data_path=path))
+            #await asyncio.gather(*tasks_write)
         except:
             Exception(TypeError)
 
     #скрипт формирования списка задач из асинхронных HTTP запросов
-    async def gather_data(self, min_price=0, max_price=1000000000000000, rt=0, seller_id=0):
+    async def gather_data(self,message, min_price=0, max_price=1000000000000000, rt=0, seller_id=0,path=""):
+        self.path = path
+
         async with aiohttp.ClientSession() as session:
             tasks = []
             for page in range(1, UserData.count_page+1):
@@ -57,13 +61,15 @@ class Page_Source(UserData, Writers):
                 response = await session.get(self.__url)
                 products_raw = json.loads(await response.text())
                 products = products_raw.get("products")
-                task = asyncio.create_task(self.get_page_data(products,min_price=min_price,max_price=max_price,rt=rt))
+                task = asyncio.create_task(self.get_page_data(products,min_price=min_price,
+                                                              max_price=max_price,rt=rt))
 
                 tasks.append(task)
 
                 if page > 60 or len(products) == 0:
                     break
             await asyncio.gather(*tasks)
+            await send(message, path=self.path)
 
     async def price_method(self, sizes):
 
