@@ -67,6 +67,15 @@ async def request_user_count_page(message: Message, state: FSMContext):
     await message.answer('Выберите интересующий рейтинг товара', reply_markup=rating_kb)
     await state.set_state(Request_from_user_state.waiting_rating)
 
+@rt.callback_query(F.data == 'rating_assessment_0')
+async def request_user_rating(callback: CallbackQuery, state: FSMContext):
+    '''#Получение рейтинга от пользователя от 1 до 5'''
+
+    await callback.message.delete()
+    await state.update_data(rating=0)
+
+    await callback.message.answer('Выберите тип файла', reply_markup=type_of_file_kb)
+    await state.set_state(Request_from_user_state.waiting_type_file)
 
 @rt.callback_query(F.data == 'rating_assessment_1')
 async def request_user_rating(callback: CallbackQuery, state: FSMContext):
