@@ -10,3 +10,5 @@ load_dotenv()
 TOKEN: str = f"{os.getenv('TOKEN')}"
 
 bot= Bot(TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+
+

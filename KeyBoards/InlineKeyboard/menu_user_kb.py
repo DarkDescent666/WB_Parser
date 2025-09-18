@@ -11,17 +11,19 @@ menu_kb = InlineKeyboardMarkup(
 
 rating_kb = InlineKeyboardMarkup(
     inline_keyboard=[
+        [InlineKeyboardButton(text='0',callback_data='rating_assessment_0')],
         [InlineKeyboardButton(text='1',callback_data='rating_assessment_1')],
         [InlineKeyboardButton(text='2',callback_data='rating_assessment_2')],
         [InlineKeyboardButton(text='3',callback_data='rating_assessment_3')],
         [InlineKeyboardButton(text='4',callback_data='rating_assessment_4')],
         [InlineKeyboardButton(text='5',callback_data='rating_assessment_5')]
     ]
-)
 
+
+)
 salesman_kb = InlineKeyboardMarkup(
     inline_keyboard=[
         [InlineKeyboardButton(text='Имя продавца', callback_data='salesman_name')],
-        [InlineKeyboardButton(text='Прямая ссылка', callback_data='salesman_url')]
+
     ]
 )
