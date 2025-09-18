@@ -28,7 +28,7 @@ class ParsPages:
             UserDataByItem.path = f"products_json//products_{UserDataByItem.user_name}_{self.dt}.json"
 
     async def set_data_by_seller(self,data):
-        UserDataBySeller.brand_id = data["salesman_name"]
+        UserDataBySeller.brand_id = data["seller_id"]
         UserDataBySeller.user_name = data['user_name']
         UserDataBySeller.file_writer = data["salesman_type_of_file"]
         if UserDataBySeller.file_writer == "CSV":

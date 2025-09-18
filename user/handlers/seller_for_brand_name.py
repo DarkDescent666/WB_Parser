@@ -22,7 +22,7 @@ async def seller_callback_get_name(callback: CallbackQuery,state: FSMContext):
 
 @rt.message(Salesman_get_state.salesman_get_name)
 async def seller_get_name(message: Message,state:FSMContext):
-    await state.update_data(salesman_name = message.text)
+    await state.update_data(seller_id = message.text)
     await message.answer(f'ID продавца получено: {message.text}')
     await state.set_state(Salesman_get_state.salesman_get_type_of_file_in_name)
     await message.answer('Выберите тип файла используя кнопки',reply_markup= type_of_file_kb)
