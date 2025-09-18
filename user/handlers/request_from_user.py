@@ -120,7 +120,7 @@ async def request_user_type_of_file(message: Message, state: FSMContext):
     ''' Получаем желаемый пользователем тип файла'''
 
 
-    if message.text != ('JSON' or 'CSV'):
+    if message.text not in ['JSON','CSV']:
         await message.answer('Пожалуйста, используй кнопки')
         return request_user_type_of_file
 
