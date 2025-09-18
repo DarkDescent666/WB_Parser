@@ -1,9 +1,8 @@
-import json
 import requests
-import csv
 from core.writers import Writers
 
 
+# OLD SCRIPT
 class Page_Source(Writers):
     counter = 0
 
@@ -50,17 +49,4 @@ class Page_Source(Writers):
     async def price_method(self, sizes):
         # '''Методо получения отфильтрованной цены, вызывается в data_js'''
         for price in sizes:
-            return float(price.get("price").get("product"))/100
-
-
-
-
-
-
-
-
-
-
-
-
-
+            return float(price.get("price").get("product")) / 100

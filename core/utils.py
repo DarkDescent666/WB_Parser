@@ -1,3 +1,4 @@
+import json
 from datetime import datetime
 import asyncio
 from core.user_data import UserData
@@ -8,15 +9,16 @@ class Error(Exception):
 
 
 class ParsPages(UserData):
-    async def processing_by_name(self,data):
+    async def processing_by_name(self):
             start = datetime.now()
-            async_script = Page_Source(data)
+            async_script = Page_Source()
 
             task = asyncio.create_task(async_script.gather_data(
-                    min_price=self.min_price, max_price=self.max_price, rt=self.rating),
-                                           name=self.user_name)
+                    min_price=UserData.min_price, max_price=UserData.max_price, rt=UserData.rating),
+                                           )
             if await task == None:
                 print(f"Время работы программы {datetime.now() - start}")
+
                 return self.path
 
 
