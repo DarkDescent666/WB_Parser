@@ -196,10 +196,10 @@ async def request_user_type_of_file(message: Message, state: FSMContext):
     else:
         UserData.path = f"products_json//products_{UserData.user_name}_{UserData.dt}.json"
 
-    #запускает скрипт парсинга по товарам в файле utils
-    get_data_items_by_name = await (ParsPages.processing_by_name())
 
-
+    pages = ParsPages()
+    #
+    get_data_items_by_name = await (pages.processing_by_name())
     document = FSInputFile(get_data_items_by_name, filename=get_data_items_by_name)
     await message.answer_document(document=document, caption="Работает!!")
 
