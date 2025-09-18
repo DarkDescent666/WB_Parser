@@ -150,22 +150,10 @@ async def request_user_type_of_file(message: Message, state: FSMContext):
                          f'Тип получаемого файла: {data['type_of_file']},',reply_markup=remove_keyboard)
     await state.clear()
     #Записываем данные от пользователя в переменные класса UserData
-    UserData.dt = str(datetime.now().strftime("%d_%m_%y__%H_%M_%S"))
-    UserData.item = data['request_from_user']
-    UserData.min_price = data['min_price']
-    UserData.max_price = data['max_price']
-    UserData.count_page = data['count_page']
-    UserData.file_writer = data['type_of_file']
-    UserData.user_name = data['user_name']
-    UserData.rating = data['rating']
-    if UserData.file_writer == "CSV":
-        UserData.path = f"products_csv//products_{UserData.user_name}_{UserData.dt}.csv"
-    else:
-        UserData.path = f"products_json//products_{UserData.user_name}_{UserData.dt}.json"
 
 
     pages = ParsPages()
-    #
+    await pages.set_data(data)
     get_data_items_by_name = await (pages.processing_by_name())
     document = FSInputFile(get_data_items_by_name, filename=get_data_items_by_name)
     await message.answer_document(document=document, caption="Работает!!")

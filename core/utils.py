@@ -9,6 +9,21 @@ class Error(Exception):
 
 
 class ParsPages(UserData):
+
+    async def set_data(self,data):
+        UserData.dt = str(datetime.now().strftime("%d_%m_%y__%H_%M_%S"))
+        UserData.item = data['request_from_user']
+        UserData.min_price = data['min_price']
+        UserData.max_price = data['max_price']
+        UserData.count_page = data['count_page']
+        UserData.file_writer = data['type_of_file']
+        UserData.user_name = data['user_name']
+        UserData.rating = data['rating']
+        if UserData.file_writer == "CSV":
+            UserData.path = f"products_csv//products_{UserData.user_name}_{UserData.dt}.csv"
+        else:
+            UserData.path = f"products_json//products_{UserData.user_name}_{UserData.dt}.json"
+
     #Парсинг по названию товаров
     async def processing_by_name(self):
             start = datetime.now()
