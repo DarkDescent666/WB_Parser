@@ -1,4 +1,4 @@
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, ReplyKeyboardRemove
 
 type_of_file_kb = ReplyKeyboardMarkup(           #Клавиатура для выбора типа файла
     keyboard=[
@@ -6,3 +6,4 @@ type_of_file_kb = ReplyKeyboardMarkup(           #Клавиатура для в
         [KeyboardButton(text= 'CSV')]
     ],resize_keyboard=True
 )
+remove_keyboard = ReplyKeyboardRemove()
