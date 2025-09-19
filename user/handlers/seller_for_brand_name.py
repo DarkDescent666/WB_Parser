@@ -1,9 +1,9 @@
 from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
-from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove, FSInputFile
+from aiogram.types import CallbackQuery, Message
 
 from KeyBoards.InlineKeyboard.menu_user_kb import salesman_kb
-from KeyBoards.ReplyKeyboards.type_of_file_kb import type_of_file_kb, remove_keyboard
+from KeyBoards.ReplyKeyboards.type_of_file_kb import type_of_file_kb
 from core.utils import ParsPages
 from states.salesman_state import Salesman_get_state
 

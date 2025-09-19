@@ -1,4 +1,3 @@
-
 class UserDataByItem:
     item: str
     min_price: int = 0
@@ -16,7 +15,3 @@ class UserDataBySeller:
     file_writer: str
     user_name: str
     path: str
-
-
-
-
